@@ -47,7 +47,7 @@ metadata:
     - "Land Court"
     - "Probate and Family Court"
     - "Superior Court"
-  typical_role: "na"
+  typical_role: "unknown"
   al_weaver_version: "1.11.0"
   generated_on: "2024-09-24"
   languages:
@@ -93,8 +93,9 @@ code: |
   # Set the allowed courts for this interview
   allowed_courts = ['Boston Municipal Court', 'District Court', 'Housing Court', 'Juvenile Court', 'Land Court', 'Probate and Family Court', 'Superior Court']
   nav.set_section("review_notice_of_appearance_form")
-  user_role = "na"
-  user_ask_role = "na"
+  # Below sets the user_role and user_ask_role by asking a question.
+  # You can set user_ask_role directly instead to either 'plaintiff' or 'defendant'
+  user_ask_role
   docket_number
   trial_court_department1
   trial_court.address.address
