@@ -206,14 +206,14 @@ fields:
     input type: area
     maxlength: 114
   - "What is the unit associated with the address of the representative in this case?": attorneys1_addressunit
-    maxlength: 16
+    maxlength: 5
     required: False
   - "What is the zip code of the representative in this case?": attorneys1_addresszip
-    maxlength: 24
+    maxlength: 5
   - "In what city does the representative in this case reside?": attorneys1_addresscity
-    maxlength: 74
+    maxlength: 40
   - "In what state does the representative in this case reside?": attorneys1_addressstate
-    maxlength: 18
+    maxlength: 2
 ---
 id: preview notice_of_appearance_form
 question: |
