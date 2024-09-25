@@ -215,6 +215,13 @@ fields:
   - "In what state does the representative in this case reside?": attorneys1_addressstate
     maxlength: 2
 ---
+id: attorney_contact_information
+generic object: ALIndividual
+question: |
+  What is ${x}'s mobile number?
+fields:
+  - Phone: x.mobile_number
+---
 id: preview notice_of_appearance_form
 question: |
   Preview your form before you sign it
