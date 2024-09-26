@@ -160,21 +160,21 @@ id: Case Information
 question: |
   Case Information
 subquestion: |
-  Answer the following questions related to your court case:
+  Check the box next to which court department your case is in (only check 1 box):
 fields:
-  - "Is your case in Boston Municipal Court?": trial_court_department1
+  - "Boston Municipal Court": trial_court_department1
     datatype: yesno
-  - "Is your case in District Court?": trial_court_department2
+  - "District Court": trial_court_department2
     datatype: yesno
-  - "Is your case in Housing Court?": trial_court_department3
+  - "Housing Court": trial_court_department3
     datatype: yesno
-  - "Is your case in Juvenile Court?": trial_court_department4
+  - "Juvenile Court": trial_court_department4
     datatype: yesno
-  - "Is your case in Land Court?": trial_court_department5
+  - "Land Court": trial_court_department5
     datatype: yesno
-  - "Is your case in Probate & Family Court?": trial_court_department6
+  - "Probate & Family Court": trial_court_department6
     datatype: yesno
-  - "Is your case in Superior Court?": trial_court_department7
+  - "Superior Court": trial_court_department7
     datatype: yesno
 ---
 id: Representation Status
