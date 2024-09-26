@@ -111,6 +111,7 @@ code: |
   attorneys[0].mobile_number
   attorneys[0].email
   signature_date
+  attorneys[0].signature
   set_progress(64)
   interview_order_notice_of_appearance_form = True
 ---
@@ -497,7 +498,7 @@ attachment:
       - "attorneys1_address.city": ${ attorneys1_addresscity }
       - "attorneys1_address.state": ${ attorneys1_addressstate }
       - "signature_date": ${ signature_date }
-      - "attorneys1_signature": ${ attorneys[0].signature_if_final(i) }
+      - "attorneys1_signature": ${ attorneys[0].signature }
 
 
 
