@@ -1,6 +1,7 @@
 ---
 include:
   - docassemble.AssemblyLine:assembly_line.yml
+  - docassemble.MassAccess:massaccess.yml
 ---
 metadata:
   title: >-
@@ -97,7 +98,7 @@ code: |
   # You can set user_ask_role directly instead to either 'plaintiff' or 'defendant'
   user_ask_role
   docket_number
-  trial_court_department1
+  trial_court.department
   trial_court.address.address
   set_progress(16)
   petitioners.gather()
@@ -155,27 +156,6 @@ subquestion: |
   If you have a court case, you can use this interview to fill out a completed Notice of Appearance ready to file with the court.
 
   Most people take about 10 minutes to complete this interview.
----
-id: Case Information
-question: |
-  Case Information
-subquestion: |
-  Check the box next to which court department your case is in (only check 1 box):
-fields:
-  - "Boston Municipal Court": trial_court_department1
-    datatype: yesno
-  - "District Court": trial_court_department2
-    datatype: yesno
-  - "Housing Court": trial_court_department3
-    datatype: yesno
-  - "Juvenile Court": trial_court_department4
-    datatype: yesno
-  - "Land Court": trial_court_department5
-    datatype: yesno
-  - "Probate & Family Court": trial_court_department6
-    datatype: yesno
-  - "Superior Court": trial_court_department7
-    datatype: yesno
 ---
 id: Representation Status
 question: |
@@ -258,6 +238,10 @@ review:
     button: |
       **Docket number**:
       ${ docket_number }
+  - Edit: trial_court.department
+    button: |
+      **Trial court department**:
+      ${ trial_court.department }
   - Edit: trial_court_department3
     button: |
       **Is your case in Housing Court?**:
@@ -473,14 +457,14 @@ attachment:
   pdf template file: notice_of_appearance_form.pdf
   fields:
       - "docket_number": ${ docket_number }
-      - "trial_court_department3": ${ trial_court_department3 }
-      - "trial_court_department1": ${ trial_court_department1 }
-      - "trial_court_department2": ${ trial_court_department2 }
-      - "trial_court_department5": ${ trial_court_department5 }
-      - "trial_court_department4": ${ trial_court_department4 }
+      - "trial_court_department3": ${ True if trial_court.department == "Housing Court" else False }
+      - "trial_court_department1": ${ True if trial_court.department == "Boston Municipal Court" else False }
+      - "trial_court_department2": ${ True if trial_court.department == "District Court" else False }
+      - "trial_court_department5": ${ True if trial_court.department == "Land Court" else False }
+      - "trial_court_department4": ${ True if trial_court.department == "Juvenile Court" else False }
       - "petitioners": ${ petitioners }
-      - "trial_court_department6": ${ trial_court_department6 }
-      - "trial_court_department7": ${ trial_court_department7 }
+      - "trial_court_department6": ${ True if trial_court.department == "Probate & Family Court" else False }
+      - "trial_court_department7": ${ True if trial_court.department == "Superior Court" else False }
       - "respondents": ${ respondents }
       - "trial_court_address_county": ${ trial_court.address.county }
       - "users1_is_pro_se": ${ users1_is_pro_se }
