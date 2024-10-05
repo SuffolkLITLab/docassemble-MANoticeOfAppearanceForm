@@ -97,20 +97,26 @@ code: |
   # Below sets the user_role and user_ask_role by asking a question.
   # You can set user_ask_role directly instead to either 'plaintiff' or 'defendant'
   user_ask_role
+  attorneys.gather()
+  #attorneys1_bar_number
+  attorneys[0].address.address
+  attorneys[0].phone_number
+  attorneys[0].mobile_number
+  attorneys[0].email
+  users.gather()
+  users[0].address.address
+  users[0].phone_number
+  users[0].mobile_number
+  users[0].email
   docket_number
-  trial_court.department
   trial_court.address.address
+  trial_court.department
   set_progress(16)
   petitioners.gather()
   respondents.gather()
-  users1_is_represented
+  #users1_is_represented
   set_progress(32)
-  attorneys.gather()
-  attorneys1_bar_number
-  attorneys[0].phone_number
   set_progress(48)
-  attorneys[0].mobile_number
-  attorneys[0].email
   signature_date
   attorneys[0].signature
   set_progress(64)
@@ -470,17 +476,17 @@ attachment:
       - "users1_is_pro_se": ${ users1_is_pro_se }
       - "users1_name_full1": ${ users1_name_full1 }
       - "users1_is_represented": ${ users1_is_represented }
-      - "attorneys1_bar_number": ${ attorneys1_bar_number }
+      - "attorneys1_bar_number": ${ attorneys[0].bar.number }
       - "attorneys1_name_full": ${ attorneys[0] }
-      - "attorneys1_firm_name": ${ attorneys1_firm_name }
+      - "attorneys1_firm_name": ${ attorneys[0].firm_name }
       - "attorneys1_phone_number": ${ attorneys[0].phone_number }
-      - "attorneys1_address.address": ${ attorneys1_addressaddress }
-      - "attorneys1_address.unit": ${ attorneys1_addressunit }
+      - "attorneys1_address.address": ${ attorneys[0].address.address }
+      - "attorneys1_address.unit": ${ attorneys[0].addressunit }
       - "attorneys1_mobile_number": ${ attorneys[0].mobile_number }
       - "attorneys1_email": ${ attorneys[0].email }
-      - "attorneys1_address.zip": ${ attorneys1_addresszip }
-      - "attorneys1_address.city": ${ attorneys1_addresscity }
-      - "attorneys1_address.state": ${ attorneys1_addressstate }
+      - "attorneys1_address.zip": ${ attorneys[0].address.zip }
+      - "attorneys1_address.city": ${ attorneys[0].address.city }
+      - "attorneys1_address.state": ${ attorneys[0].address.state }
       - "signature_date": ${ signature_date }
       - "attorneys1_signature": ${ attorneys[0].signature }
 
