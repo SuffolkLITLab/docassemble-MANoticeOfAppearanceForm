@@ -97,22 +97,32 @@ code: |
   # Below sets the user_role and user_ask_role by asking a question.
   # You can set user_ask_role directly instead to either 'plaintiff' or 'defendant'
   user_ask_role
+  users1_is_represented
+  if users1_is_represented == True:
+    attorneys.gather()
+    attorneys1_bar_number  
+    attorneys[0].address.address
+    attorneys[0].phone_number
+    attorneys[0].mobile_number
+    attorneys[0].email
+  users.gather()
+  users[0].address.address
+  users[0].phone_number
+  users[0].mobile_number
+  users[0].email
   docket_number
-  trial_court.department
   trial_court.address.address
+  trial_court.department
   set_progress(16)
   petitioners.gather()
   respondents.gather()
-  users1_is_represented
   set_progress(32)
-  attorneys.gather()
-  attorneys1_bar_number
-  attorneys[0].phone_number
   set_progress(48)
-  attorneys[0].mobile_number
-  attorneys[0].email
-  signature_date
-  attorneys[0].signature
+  if users1_is_represented == True: 
+    attorneys[0].signature
+  if users1_is_represented == False:
+    signature_date
+    users[0].signature
   set_progress(64)
   interview_order_notice_of_appearance_form = True
 ---
@@ -161,40 +171,23 @@ id: Representation Status
 question: |
   Representation Status
 subquestion: |
-  Answer the following questions related to your representation status in this court case:
+  Are you being represented by an attorney in this case?:
 fields:
-  - "Are you being represented by an attorney in this case?": users1_is_represented
-    datatype: yesno
-  - "Are you representing yourself in this case? (Pro-Se)": users1_is_pro_se
-    datatype: yesno
-  - "What is the full name of the person you are representing in this case?": users1_name_full1
-    maxlength: 74
-    required: False
+  - no label: users1_is_represented
+    datatype: yesnoradio
 ---
 id: Representative Information
 question: |
   Representative Information
 subquestion: |
-  Answer the following questions related to the representative (ie attorney or Pro-se defendant) in this court case.
+  Input the following information related to the Representative (ie Attorney or Pro-se Party) in this court case.
 fields:
-  - "What is your Board of Bar Overseer Number? (BBO #)": attorneys1_bar_number
-    maxlength: 60
+  - "Board of Bar Overseer Number (BBO #)": attorneys1_bar_number
+    maxlength: 6
     required: False
-  - "What is the name of your law firm?": attorneys1_firm_name
+  - "Law Firm Name": attorneys1_firm_name
     maxlength: 130
     required: False
-  - "What is the address of the representative in this case?": attorneys1_addressaddress
-    input type: area
-    maxlength: 114
-  - "What is the unit associated with the address of the representative in this case?": attorneys1_addressunit
-    maxlength: 5
-    required: False
-  - "What is the zip code of the representative in this case?": attorneys1_addresszip
-    maxlength: 5
-  - "In what city does the representative in this case reside?": attorneys1_addresscity
-    maxlength: 40
-  - "In what state does the representative in this case reside?": attorneys1_addressstate
-    maxlength: 2
 ---
 id: attorney_contact_information
 generic object: ALIndividual
@@ -220,7 +213,7 @@ subquestion: |
 continue button field: notice_of_appearance_form_preview_question    
 ---
 code: |
-  signature_fields = ['attorneys[0].signature']
+  signature_fields = ['users[0].signature']
 ---
 code: |
   # This is a placeholder for the addresses that will be searched
@@ -322,22 +315,6 @@ review:
     button: |
       **What is the address of the representative in this case?**:
       > ${ single_paragraph(attorneys1_addressaddress) }
-  - Edit: attorneys1_addressunit
-    button: |
-      **What is the unit associated with the address of the representative in this case?**:
-      ${ attorneys1_addressunit }
-  - Edit: attorneys1_addresszip
-    button: |
-      **What is the zip code of the representative in this case?**:
-      ${ attorneys1_addresszip }
-  - Edit: attorneys1_addresscity
-    button: |
-      **In what city does the representative in this case reside?**:
-      ${ attorneys1_addresscity }
-  - Edit: attorneys1_addressstate
-    button: |
-      **In what state does the representative in this case reside?**:
-      ${ attorneys1_addressstate }
   - Edit: signature_date
     button: |
       **Date of signature**:
@@ -467,21 +444,22 @@ attachment:
       - "trial_court_department7": ${ True if trial_court.department == "Superior Court" else False }
       - "respondents": ${ respondents }
       - "trial_court_address_county": ${ trial_court.address.county }
-      - "users1_is_pro_se": ${ users1_is_pro_se }
-      - "users1_name_full1": ${ users1_name_full1 }
-      - "users1_is_represented": ${ users1_is_represented }
+      - "users1_is_pro_se": ${ True if user1_is_represented == "No" else False }
+      - "users1_name_full1": ${ users[0].name.full() }
+      - "users1_is_represented": ${ True if users1_is_represented == "Yes" else False  }
       - "attorneys1_bar_number": ${ attorneys1_bar_number }
       - "attorneys1_name_full": ${ attorneys[0] }
       - "attorneys1_firm_name": ${ attorneys1_firm_name }
       - "attorneys1_phone_number": ${ attorneys[0].phone_number }
-      - "attorneys1_address.address": ${ attorneys1_addressaddress }
-      - "attorneys1_address.unit": ${ attorneys1_addressunit }
+      - "attorneys1_address.address": ${ attorneys[0].address.address }
+      - "attorneys1_addressunit": ${ attorneys[0].addressunit }
       - "attorneys1_mobile_number": ${ attorneys[0].mobile_number }
       - "attorneys1_email": ${ attorneys[0].email }
-      - "attorneys1_address.zip": ${ attorneys1_addresszip }
-      - "attorneys1_address.city": ${ attorneys1_addresscity }
-      - "attorneys1_address.state": ${ attorneys1_addressstate }
+      - "attorneys1_address.zip": ${ attorneys[0].address.zip }
+      - "attorneys1_address.city": ${ attorneys[0].address.city }
+      - "attorneys1_address.state": ${ attorneys[0].address.state }
       - "signature_date": ${ signature_date }
+      - "users1_signature": ${ users[0].signature }
       - "attorneys1_signature": ${ attorneys[0].signature }
 
 
