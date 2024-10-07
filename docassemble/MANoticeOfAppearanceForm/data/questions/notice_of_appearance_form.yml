@@ -97,8 +97,9 @@ code: |
   # Below sets the user_role and user_ask_role by asking a question.
   # You can set user_ask_role directly instead to either 'plaintiff' or 'defendant'
   user_ask_role
+  users1_is_represented
   attorneys.gather()
-  #attorneys1_bar_number
+  attorneys1_bar_number
   attorneys[0].address.address
   attorneys[0].phone_number
   attorneys[0].mobile_number
@@ -114,7 +115,6 @@ code: |
   set_progress(16)
   petitioners.gather()
   respondents.gather()
-  #users1_is_represented
   set_progress(32)
   set_progress(48)
   signature_date
@@ -167,40 +167,25 @@ id: Representation Status
 question: |
   Representation Status
 subquestion: |
-  Answer the following questions related to your representation status in this court case:
+  Check the box that describes your representation status for this case:
 fields:
-  - "Are you being represented by an attorney in this case?": users1_is_represented
+  - "I am being represented by an attorney in this case": users1_is_represented
     datatype: yesno
-  - "Are you representing yourself in this case? (Pro-Se)": users1_is_pro_se
+  - "I am representing myself in this case without an attorney (Pro-Se)": users1_is_pro_se
     datatype: yesno
-  - "What is the full name of the person you are representing in this case?": users1_name_full1
-    maxlength: 74
-    required: False
 ---
 id: Representative Information
 question: |
   Representative Information
 subquestion: |
-  Answer the following questions related to the representative (ie attorney or Pro-se defendant) in this court case.
+  Input the following information related to the Representative (ie Attorney or Pro-se Party) in this court case.
 fields:
-  - "What is your Board of Bar Overseer Number? (BBO #)": attorneys1_bar_number
-    maxlength: 60
+  - "Board of Bar Overseer Number (BBO #)": attorneys1_bar_number
+    maxlength: 6
     required: False
-  - "What is the name of your law firm?": attorneys1_firm_name
+  - "Law Firm Name": attorneys1_firm_name
     maxlength: 130
     required: False
-  - "What is the address of the representative in this case?": attorneys1_addressaddress
-    input type: area
-    maxlength: 114
-  - "What is the unit associated with the address of the representative in this case?": attorneys1_addressunit
-    maxlength: 5
-    required: False
-  - "What is the zip code of the representative in this case?": attorneys1_addresszip
-    maxlength: 5
-  - "In what city does the representative in this case reside?": attorneys1_addresscity
-    maxlength: 40
-  - "In what state does the representative in this case reside?": attorneys1_addressstate
-    maxlength: 2
 ---
 id: attorney_contact_information
 generic object: ALIndividual
@@ -328,22 +313,6 @@ review:
     button: |
       **What is the address of the representative in this case?**:
       > ${ single_paragraph(attorneys1_addressaddress) }
-  - Edit: attorneys1_addressunit
-    button: |
-      **What is the unit associated with the address of the representative in this case?**:
-      ${ attorneys1_addressunit }
-  - Edit: attorneys1_addresszip
-    button: |
-      **What is the zip code of the representative in this case?**:
-      ${ attorneys1_addresszip }
-  - Edit: attorneys1_addresscity
-    button: |
-      **In what city does the representative in this case reside?**:
-      ${ attorneys1_addresscity }
-  - Edit: attorneys1_addressstate
-    button: |
-      **In what state does the representative in this case reside?**:
-      ${ attorneys1_addressstate }
   - Edit: signature_date
     button: |
       **Date of signature**:
@@ -474,7 +443,7 @@ attachment:
       - "respondents": ${ respondents }
       - "trial_court_address_county": ${ trial_court.address.county }
       - "users1_is_pro_se": ${ users1_is_pro_se }
-      - "users1_name_full1": ${ users1_name_full1 }
+      - "users1_name_full1": ${ users[0].name.full() }
       - "users1_is_represented": ${ users1_is_represented }
       - "attorneys1_bar_number": ${ attorneys[0].bar.number }
       - "attorneys1_name_full": ${ attorneys[0] }
