@@ -98,12 +98,13 @@ code: |
   # You can set user_ask_role directly instead to either 'plaintiff' or 'defendant'
   user_ask_role
   users1_is_represented
-  attorneys.gather()
-  attorneys1_bar_number
-  attorneys[0].address.address
-  attorneys[0].phone_number
-  attorneys[0].mobile_number
-  attorneys[0].email
+  if users1_is_represented == True:
+    attorneys.gather()
+    attorneys1_bar_number  
+    attorneys[0].address.address
+    attorneys[0].phone_number
+    attorneys[0].mobile_number
+    attorneys[0].email
   users.gather()
   users[0].address.address
   users[0].phone_number
@@ -117,8 +118,11 @@ code: |
   respondents.gather()
   set_progress(32)
   set_progress(48)
-  signature_date
-  attorneys[0].signature
+  if users1_is_represented == True: 
+    attorneys[0].signature
+  if users1_is_represented == False:
+    signature_date
+    users[0].signature
   set_progress(64)
   interview_order_notice_of_appearance_form = True
 ---
@@ -167,12 +171,10 @@ id: Representation Status
 question: |
   Representation Status
 subquestion: |
-  Check the box that describes your representation status for this case:
+  Are you being represented by an attorney in this case?:
 fields:
-  - "I am being represented by an attorney in this case": users1_is_represented
-    datatype: yesno
-  - "I am representing myself in this case without an attorney (Pro-Se)": users1_is_pro_se
-    datatype: yesno
+  - no label: users1_is_represented
+    datatype: yesnoradio
 ---
 id: Representative Information
 question: |
@@ -211,7 +213,7 @@ subquestion: |
 continue button field: notice_of_appearance_form_preview_question    
 ---
 code: |
-  signature_fields = ['attorneys[0].signature']
+  signature_fields = ['users[0].signature']
 ---
 code: |
   # This is a placeholder for the addresses that will be searched
@@ -442,21 +444,22 @@ attachment:
       - "trial_court_department7": ${ True if trial_court.department == "Superior Court" else False }
       - "respondents": ${ respondents }
       - "trial_court_address_county": ${ trial_court.address.county }
-      - "users1_is_pro_se": ${ users1_is_pro_se }
+      - "users1_is_pro_se": ${ True if user1_is_represented == "No" else False }
       - "users1_name_full1": ${ users[0].name.full() }
-      - "users1_is_represented": ${ users1_is_represented }
-      - "attorneys1_bar_number": ${ attorneys[0].bar.number }
+      - "users1_is_represented": ${ True if users1_is_represented == "Yes" else False  }
+      - "attorneys1_bar_number": ${ attorneys1_bar_number }
       - "attorneys1_name_full": ${ attorneys[0] }
-      - "attorneys1_firm_name": ${ attorneys[0].firm_name }
+      - "attorneys1_firm_name": ${ attorneys1_firm_name }
       - "attorneys1_phone_number": ${ attorneys[0].phone_number }
       - "attorneys1_address.address": ${ attorneys[0].address.address }
-      - "attorneys1_address.unit": ${ attorneys[0].addressunit }
+      - "attorneys1_addressunit": ${ attorneys[0].addressunit }
       - "attorneys1_mobile_number": ${ attorneys[0].mobile_number }
       - "attorneys1_email": ${ attorneys[0].email }
       - "attorneys1_address.zip": ${ attorneys[0].address.zip }
       - "attorneys1_address.city": ${ attorneys[0].address.city }
       - "attorneys1_address.state": ${ attorneys[0].address.state }
       - "signature_date": ${ signature_date }
+      - "users1_signature": ${ users[0].signature }
       - "attorneys1_signature": ${ attorneys[0].signature }
 
 
