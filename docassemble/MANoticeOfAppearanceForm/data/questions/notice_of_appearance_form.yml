@@ -445,16 +445,16 @@ attachment:
       - "respondents": ${ respondents }
       - "trial_court_address_county": ${ trial_court.address.county }
       - "users1_is_pro_se": ${ True if users1_is_represented == False else False }
-      - "users1_name_full1": ${ users[0].name.full() }
+      - "users1_name_full1": ${ users[0].name.full() if users1_is_represented == True else "N/A" }
       - "users1_is_represented": ${ True if users1_is_represented == True else False }
-      - "attorneys1_bar_number": ${ attorneys1_bar_number }
+      - "attorneys1_bar_number": ${ "N/A" if users1_is_represented == False else attorneys1_bar_number }
       - "attorneys1_name_full": ${ users[0].name.full() if users1_is_represented == False else attorneys[0].name.full() }
-      - "attorneys1_firm_name": ${ attorneys1_firm_name }
+      - "attorneys1_firm_name": ${ "N/A" if users1_is_represented == False else attorneys1_firm_name }
       - "attorneys1_phone_number": ${ users[0].phone_number if users1_is_represented == False else attorneys[0].phone_number }
       - "attorneys1_address.address": ${ users[0].address.address if users1_is_represented == False else attorneys[0].address.address }
       - "attorneys1_address.unit": ${ users[0].address.unit if users1_is_represented == False else attorneys[0].address.unit }
       - "attorneys1_mobile_number": ${ users[0].mobile_number if users1_is_represented == False else attorneys[0].mobile_number }
-      - "attorneys1_email": ${ attorneys[0].email }
+      - "attorneys1_email": ${ users[0].email if users1_is_represented == False else attorneys[0].email }
       - "attorneys1_address.zip": ${ users[0].address.zip if users1_is_represented == False else attorneys[0].address.zip }
       - "attorneys1_address.city": ${ users[0].address.city if users1_is_represented == False else attorneys[0].address.city }
       - "attorneys1_address.state": ${ users[0].address.state if users1_is_represented == False else attorneys[0].address.state }
