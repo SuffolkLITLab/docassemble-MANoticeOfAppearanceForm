@@ -311,10 +311,10 @@ review:
     button: |
       **What is the name of your law firm?**:
       ${ attorneys1_firm_name }
-  - Edit: attorneys1_addressaddress
+  - Edit: attorneys1_address.address
     button: |
       **What is the address of the representative in this case?**:
-      > ${ single_paragraph(attorneys1_addressaddress) }
+      > ${ single_paragraph(attorneys1_address.address) }
   - Edit: signature_date
     button: |
       **Date of signature**:
@@ -444,23 +444,22 @@ attachment:
       - "trial_court_department7": ${ True if trial_court.department == "Superior Court" else False }
       - "respondents": ${ respondents }
       - "trial_court_address_county": ${ trial_court.address.county }
-      - "users1_is_pro_se": ${ True if user1_is_represented == False else False }
+      - "users1_is_pro_se": ${ True if users1_is_represented == False else False }
       - "users1_name_full1": ${ users[0].name.full() }
       - "users1_is_represented": ${ True if users1_is_represented == True else False }
       - "attorneys1_bar_number": ${ attorneys1_bar_number }
-      - "attorneys1_name_full": ${ attorneys[0] }
+      - "attorneys1_name_full": ${ users[0].name.full() if users1_is_represented == False else attorneys[0].name.full() }
       - "attorneys1_firm_name": ${ attorneys1_firm_name }
-      - "attorneys1_phone_number": ${ attorneys[0].phone_number }
-      - "attorneys1_address.address": ${ attorneys[0].address.address }
-      - "attorneys1_address.unit": ${ attorneys[0].address.unit }
-      - "attorneys1_mobile_number": ${ attorneys[0].mobile_number }
+      - "attorneys1_phone_number": ${ users[0].phone_number if users1_is_represented == False else attorneys[0].phone_number }
+      - "attorneys1_address.address": ${ users[0].address.address if users1_is_represented == False else attorneys[0].address.address }
+      - "attorneys1_address.unit": ${ users[0].address.unit if users1_is_represented == False else attorneys[0].address.unit }
+      - "attorneys1_mobile_number": ${ users[0].mobile_number if users1_is_represented == False else attorneys[0].mobile_number }
       - "attorneys1_email": ${ attorneys[0].email }
-      - "attorneys1_address.zip": ${ attorneys[0].address.zip }
-      - "attorneys1_address.city": ${ attorneys[0].address.city }
-      - "attorneys1_address.state": ${ attorneys[0].address.state }
+      - "attorneys1_address.zip": ${ users[0].address.zip if users1_is_represented == False else attorneys[0].address.zip }
+      - "attorneys1_address.city": ${ users[0].address.city if users1_is_represented == False else attorneys[0].address.city }
+      - "attorneys1_address.state": ${ users[0].address.state if users1_is_represented == False else attorneys[0].address.state }
       - "signature_date": ${ signature_date }
-      - "users1_signature": ${ users[0].signature }
-      - "attorneys1_signature": ${ attorneys[0].signature }
+      - "attorneys1_signature": ${ users[0].signature if users1_is_represented == False else attorneys[0].signature }
 
 
 
