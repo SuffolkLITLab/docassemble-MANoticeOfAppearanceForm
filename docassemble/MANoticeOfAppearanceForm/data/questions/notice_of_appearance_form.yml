@@ -5,15 +5,15 @@ include:
 ---
 metadata:
   title: >-
-    Notice of Appearance Form
+    Notice of Appearance Form in Massachusetts Trial Courts
   short title: >-
     Notice of Appearance Form
   description: |-
     Produces a completed 'Notice of Appearance' Form for Massachusetts which you must file if you are being represented or representing yourself in your court case.
   can_I_use_this_form: |
-    If you have a court case, you can use this interview to fill out a completed Notice of Appearance ready to file with the court.
+    If you have a court case, you can use this interview to fill out a completed          Notice of Appearance ready to file with the court.
   before_you_start: |
-    This interview produces a completed 'Notice of Appearance' Form for Massachusetts which you must file if you are being represented or representing yourself in your court case.
+    This interview produces a completed 'Notice of Appearance' Form for Massachusetts     which you must file if you are being represented or representing yourself in your     court case.
     Before you get started, please gather:
     
     1. Your Docket Number
@@ -24,6 +24,7 @@ metadata:
     
     1. Download the completed form
     2. File the form with your court (instructions provided)
+    3. Deliver a copy of the form to the other party in your case or their attorney
   maturity: production
   estimated_completion_minutes: 10
   estimated_completion_delta: 5
@@ -84,7 +85,9 @@ objects:
   - other_parties: ALPeopleList.using(there_are_any=True)
 ---
 sections:
-  - review_notice_of_appearance_form: Review your answers
+- instructions: Instructions
+- fill_out_form: Fill out form
+- review_notice_of_appearance_form: Review your answers and sign your form
 ---
 #################### Interview order #####################
 comment: |
@@ -92,8 +95,8 @@ comment: |
 id: interview_order_notice_of_appearance_form
 code: |
   # Set the allowed courts for this interview
-  allowed_courts = ['Boston Municipal Court', 'District Court', 'Housing Court', 'Juvenile Court', 'Land Court', 'Probate and Family Court', 'Superior Court']
-  nav.set_section("review_notice_of_appearance_form")
+  allowed_courts = ['Boston Municipal Court', 'District Court', 'Housing Court',        'Juvenile Court', 'Land Court', 'Probate and Family Court', 'Superior Court']
+  nav.set_section("fill_out_form")
   # Below sets the user_role and user_ask_role by asking a question.
   # You can set user_ask_role directly instead to either 'plaintiff' or 'defendant'
   user_ask_role
@@ -118,6 +121,7 @@ code: |
   petitioners.gather()
   respondents.gather()
   set_progress(48)
+  nav.set_section("review_notice_of_appearance_form")
   if users1_is_represented == True: 
     attorneys[0].signature
   if users1_is_represented == False:
@@ -163,6 +167,7 @@ subquestion: |
   
   1. Download the completed form
   2. File the form with your court (instructions provided)
+  3. Deliver a copy of the form to the other party in your case or their attorney
 
   If you have a court case, you can use this interview to fill out a completed          __Notice of Appearance__ ready to file with the court.
 
@@ -208,7 +213,7 @@ subquestion: |
   Click the image to open it in a new tab. Click the "Edit answers" button
   to edit your answers.
 
-  ${ action_button_html(url_action('review_notice_of_appearance_form'), label='Edit answers', color='info') }
+  ${ action_button_html(url_action('review_notice_of_appearance_form'), label='Edit     answers', color='info') }
   
   Remember to come back to this window to continue and sign your form.
 continue button field: notice_of_appearance_form_preview_question    
@@ -396,7 +401,7 @@ subquestion: |
   
   View, download and send your form below. Click the "Edit answers" button to fix any mistakes.
 
-  ${ action_button_html(url_action('review_notice_of_appearance_form'), label='Edit answers', color='info') }
+  ${ action_button_html(url_action('review_notice_of_appearance_form'), label='Edit     answers', color='info') }
   
   
   ${ al_user_bundle.download_list_html() }
