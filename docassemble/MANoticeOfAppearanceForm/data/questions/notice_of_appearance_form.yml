@@ -5,11 +5,11 @@ include:
 ---
 metadata:
   title: >-
-    Notice of Appearance Form in Massachusetts Trial Courts
+    Notice of Appearance Form for Massachusetts Trial Courts
   short title: >-
-    Notice of Appearance Form
+    Notice of Appearance Form (MA)
   description: |-
-    Produces a completed 'Notice of Appearance' Form for Massachusetts which you must file if you are being represented or representing yourself in your court case.
+    Produces a completed 'Notice of Appearance' Form for Massachusetts which you must     file if you are being represented or representing yourself in your court case.
   can_I_use_this_form: |
     If you have a court case, you can use this interview to fill out a completed          Notice of Appearance ready to file with the court.
   before_you_start: |
@@ -102,7 +102,6 @@ code: |
   user_ask_role
   users1_is_represented
   if users1_is_represented == True:
-    attorneys.gather()
     attorneys1_bar_number  
     attorneys[0].address.address
     attorneys[0].phone_number
@@ -155,21 +154,21 @@ continue button field: notice_of_appearance_form_intro
 question: |
   Notice of Appearance Form
 subquestion: |
-  This interview produces a completed '__Notice of Appearance__' Form which you must    file if you are being represented or representing yourself in your court case in      Massachusetts.
+  This interview fills out a '__Notice of Appearance__' Form if you have a court case   in Massachusetts. Only proceed if your case is in a Massachusetts Trial Court.
   
   Before you get started, __please gather your__:
   
   1. __Docket Number__
-  2. __Case Information__ (Court department, parties, county, court address)
+  2. __Case Information__ (Court name, parties, county, court address)
   3. __Attorney's Information__ (address, phone number, email address)
   
   When you are finished, you will need to:
   
-  1. Download the completed form
-  2. File the form with your court (instructions provided)
+  1. Download the finished form
+  2. File the form with your court (with instructions)
   3. Deliver a copy of the form to the other party in your case or their attorney
 
-  If you have a court case, you can use this interview to fill out a completed          __Notice of Appearance__ ready to file with the court.
+  If you have a court case, you can use this interview to fill out a                    __Notice of Appearance__ ready to file with the court.
 
   Most people take about 10 minutes to complete this interview.
 ---
