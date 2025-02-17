@@ -14,11 +14,11 @@ metadata:
     If you have a court case, you can use this interview to fill out a completed          Notice of Appearance ready to file with the court.
   before_you_start: |
     This interview produces a completed 'Notice of Appearance' Form for Massachusetts     which you must file if you are being represented or representing yourself in your     court case.
-    Before you get started, please gather:
+    Before you get started, gather your:
     
-    1. Your Docket Number
-    2. Your Case Information (Court department, parties, county, court address)
-    3. Your Attorney's Information (address, phone number, email address)
+    1. Docket Number
+    2. Case Information (Court department, parties, county, court address)
+    3. Attorney's Information (address, phone number, email address)
     
     When you are finished, you will need to:
     
@@ -110,9 +110,10 @@ code: |
   set_progress(16)
   users.gather()
   users[0].address.address
-  users[0].phone_number
-  users[0].mobile_number
-  users[0].email
+  if users1_is_represented == False:
+    users[0].phone_number
+    users[0].mobile_number
+    users[0].email
   docket_number
   trial_court.address.address
   trial_court.department
@@ -154,13 +155,13 @@ continue button field: notice_of_appearance_form_intro
 question: |
   Notice of Appearance Form
 subquestion: |
-  This interview fills out a '__Notice of Appearance__' Form if you have a court case   in Massachusetts. Only proceed if your case is in a Massachusetts Trial Court.
+  This interview fills out a '__Notice of Appearance__' form if you have a court case   in Massachusetts. Only proceed if your case is in a Massachusetts trial court.
   
-  Before you get started, __please gather your__:
+  Before you get started, __gather your__:
   
-  1. __Docket Number__
-  2. __Case Information__ (Court name, parties, county, court address)
-  3. __Attorney's Information__ (address, phone number, email address)
+  1. __Docket number__
+  2. __Case information__ (Court name, parties, county, court address)
+  3. __Attorney's information__ (address, phone number, email address)
   
   When you are finished, you will need to:
   
@@ -170,27 +171,23 @@ subquestion: |
 
   If you have a court case, you can use this interview to fill out a                    __Notice of Appearance__ ready to file with the court.
 
-  Most people take about 10 minutes to complete this interview.
+  Most people take about 10 minutes to complete this interview. Answer the questions    as though you are the party being represented.
 ---
 id: Representation Status
 question: |
   Representation Status
-subquestion: |
-  Are you being represented by an attorney in this case?:
 fields:
-  - no label: users1_is_represented
+  - Are you being represented by an attorney in this case?: users1_is_represented
     datatype: yesnoradio
 ---
-id: Representative Information
+id: Attorney Information
 question: |
-  Representative Information
-subquestion: |
-  Input the following information related to the Representative (ie Attorney or Pro-se Party) in this court case.
+  Attorney Information
 fields:
-  - "Board of Bar Overseer Number (BBO #)": attorneys1_bar_number
+  - "Board of Bar Overseers number (BBO #)": attorneys1_bar_number
     maxlength: 6
     required: False
-  - "Law Firm Name": attorneys1_firm_name
+  - "Law firm name": attorneys1_firm_name
     maxlength: 130
     required: False
 ---
@@ -200,6 +197,7 @@ question: |
   What is ${x}'s mobile number?
 fields:
   - Phone: x.mobile_number
+    required: False
 ---
 id: preview notice_of_appearance_form
 question: |
