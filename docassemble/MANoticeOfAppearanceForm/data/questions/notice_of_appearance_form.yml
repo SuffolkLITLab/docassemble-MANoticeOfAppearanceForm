@@ -2,6 +2,7 @@
 include:
   - docassemble.AssemblyLine:assembly_line.yml
   - docassemble.MassAccess:massaccess.yml
+  - docassemble.MATCTheme:matc_theme.yml
 ---
 metadata:
   title: >-
@@ -155,21 +156,19 @@ continue button field: notice_of_appearance_form_intro
 question: |
   Notice of Appearance Form
 subquestion: |
-  This interview fills out a '__Notice of Appearance__' form if you have a court case   in Massachusetts. Only proceed if your case is in a Massachusetts trial court.
+  If you have a court case in a Massachusetts Trial Court, you can use this interview   to fill out a __'Notice of Appearance'__ ready to file with the court. Only proceed     if your case is in a Massachusetts trial court.
   
-  Before you get started, __gather your__:
+  Before you start, __gather your__:
   
   1. __Docket number__
   2. __Case information__ (Court name, parties, county, court address)
   3. __Attorney's information__ (address, phone number, email address)
   
-  When you are finished, you will need to:
+  When you finish, you will need to:
   
   1. Download the finished form
   2. File the form with your court (with instructions)
   3. Deliver a copy of the form to the other party in your case or their attorney
-
-  If you have a court case, you can use this interview to fill out a                    __Notice of Appearance__ ready to file with the court.
 
   Most people take about 10 minutes to complete this interview. Answer the questions    as though you are the party being represented.
 ---
@@ -190,6 +189,12 @@ fields:
   - "Law firm name": attorneys1_firm_name
     maxlength: 130
     required: False
+---
+id: names of people
+question: |
+  Attorney Name
+fields: 
+  - Attorney Name: attorneys[0].name
 ---
 id: attorney_contact_information
 generic object: ALIndividual
