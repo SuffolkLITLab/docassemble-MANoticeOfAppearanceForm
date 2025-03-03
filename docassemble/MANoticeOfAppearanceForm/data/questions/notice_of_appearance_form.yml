@@ -2,7 +2,7 @@
 include:
   - docassemble.AssemblyLine:assembly_line.yml
   - docassemble.MassAccess:massaccess.yml
-  - docassemble.MATCTheme:matc_theme.yml
+  # - docassemble.MATCTheme:matc_theme.yml # As of now, this is not an MATC approved interview
 ---
 metadata:
   title: >-
@@ -10,14 +10,14 @@ metadata:
   short title: >-
     Notice of Appearance Form (MA)
   description: |-
-    Produces a completed 'Notice of Appearance' Form for Massachusetts which you must     file if you are being represented or representing yourself in your court case.
+    Produces a completed 'Notice of Appearance' Form for Massachusetts which you may need to file to tell the court you showed up to court. If you are an attorney,
+    you may need to file this document to tell the court you are representing someone in a case.
   can_I_use_this_form: |
-    If you have a court case, you can use this interview to fill out a completed          Notice of Appearance ready to file with the court.
+    If you have a court case, you can use this interview to fill out a completed Notice of Appearance ready to file with the court.
   before_you_start: |
-    This interview produces a completed 'Notice of Appearance' Form for Massachusetts     which you must file if you are being represented or representing yourself in your     court case.
     Before you get started, gather your:
     
-    1. Docket Number
+    1. Docket number (case number)
     2. Case Information (Court department, parties, county, court address)
     3. Attorney's Information (address, phone number, email address)
     
@@ -123,11 +123,7 @@ code: |
   respondents.gather()
   set_progress(48)
   nav.set_section("review_notice_of_appearance_form")
-  if al_person_answering == "attorney": 
-    attorneys[0].signature
-  if al_person_answering == "user":
-    signature_date
-    users[0].signature
+  signature_date
   set_progress(64)
   interview_order_notice_of_appearance_form = True
 ---
@@ -141,6 +137,7 @@ code: |
   notice_of_appearance_form_intro
   interview_order_notice_of_appearance_form
   signature_date
+  basic_questions_signature_flow
   # Store anonymous data for analytics / statistics
   store_variables_snapshot(
       persistent=True,
@@ -186,18 +183,22 @@ id: Attorney Information
 question: |
   Attorney Information
 fields:
-  - "Board of Bar Overseers number (BBO #)": attorneys1_bar_number
-    maxlength: 6
-    required: False
+  - code: |
+      attorneys[0].name_fields()
   - "Law firm name": attorneys1_firm_name
     maxlength: 130
     required: False
----
-id: names of people
-question: |
-  Attorney Name
-fields: 
-  - Attorney Name: attorneys[0].name
+  - "Board of Bar Overseers number (BBO #)": attorneys1_bar_number
+    maxlength: 6
+    required: False
+  - code: |
+      attorneys[0].address_fields(default_state="MA")
+  - Phone: attorneys[0].phone_number
+    required: False
+  - Mobile: attorneys[0].mobile_number
+    required: False
+  - Email: attorneys[0].email
+    required: False
 ---
 id: attorney_contact_information
 generic object: ALIndividual
@@ -224,7 +225,10 @@ subquestion: |
 continue button field: notice_of_appearance_form_preview_question    
 ---
 code: |
-  signature_fields = ['users[0].signature']
+  if al_person_answering == "attorney":
+    signature_fields = ['attorneys[0].signature']
+  else:
+    signature_fields = ['users[0].signature']
 ---
 code: |
   # This is a placeholder for the addresses that will be searched
@@ -459,16 +463,16 @@ attachment:
       - "trial_court_department7": ${ True if trial_court.department == "Superior Court" else False }
       - "respondents": ${ respondents }
       - "trial_court_address_county": ${ trial_court.address.county }
-      - "users1_is_pro_se": ${ True if al_person_answering == "user" else False }
+      - "users1_is_pro_se": ${ al_person_answering == "user"}
       - "users1_name_full1": ${ users[0].name.full() if al_person_answering == "attorney" else "N/A" }
-      - "users1_is_represented": ${ True if al_person_answering == "attorney" else False }
+      - "users1_is_represented": ${ al_person_answering == "attorney" }
       - "attorneys1_bar_number": ${ "N/A" if al_person_answering == "user" else attorneys1_bar_number }
       - "attorneys1_name_full": ${ users[0].name.full() if al_person_answering == "user" else attorneys[0].name.full() }
       - "attorneys1_firm_name": ${ "N/A" if al_person_answering == "user" else attorneys1_firm_name }
       - "attorneys1_phone_number": ${ users[0].phone_number if al_person_answering == "user" else attorneys[0].phone_number }
+      - "attorneys1_mobile_number": ${ users[0].mobile_number if al_person_answering == "user" else attorneys[0].mobile_number }
       - "attorneys1_address.address": ${ users[0].address.address if al_person_answering == "user" else attorneys[0].address.address }
       - "attorneys1_address.unit": ${ users[0].address.unit if al_person_answering == "user" else attorneys[0].address.unit }
-      - "attorneys1_mobile_number": ${ users[0].mobile_number if al_person_answering == "user" else attorneys[0].mobile_number }
       - "attorneys1_email": ${ users[0].email if al_person_answering == "user" else attorneys[0].email }
       - "attorneys1_address.zip": ${ users[0].address.zip if al_person_answering == "user" else attorneys[0].address.zip }
       - "attorneys1_address.city": ${ users[0].address.city if al_person_answering == "user" else attorneys[0].address.city }
