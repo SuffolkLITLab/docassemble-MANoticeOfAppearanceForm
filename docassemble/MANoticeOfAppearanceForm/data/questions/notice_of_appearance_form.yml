@@ -101,8 +101,8 @@ code: |
   # Below sets the user_role and user_ask_role by asking a question.
   # You can set user_ask_role directly instead to either 'plaintiff' or 'defendant'
   user_ask_role
-  users1_is_represented
-  if users1_is_represented == True:
+  al_person_answering
+  if al_person_answering == "attorney":
     attorneys1_bar_number  
     attorneys[0].address.address
     attorneys[0].phone_number
@@ -111,7 +111,7 @@ code: |
   set_progress(16)
   users.gather()
   users[0].address.address
-  if users1_is_represented == False:
+  if al_person_answering == "user":
     users[0].phone_number
     users[0].mobile_number
     users[0].email
@@ -123,9 +123,9 @@ code: |
   respondents.gather()
   set_progress(48)
   nav.set_section("review_notice_of_appearance_form")
-  if users1_is_represented == True: 
+  if al_person_answering == "attorney": 
     attorneys[0].signature
-  if users1_is_represented == False:
+  if al_person_answering == "user":
     signature_date
     users[0].signature
   set_progress(64)
@@ -156,7 +156,7 @@ continue button field: notice_of_appearance_form_intro
 question: |
   Notice of Appearance Form
 subquestion: |
-  If you have a court case in a Massachusetts Trial Court, you can use this interview   to fill out a **'Notice of Appearance'** ready to file with the court. Only proceed     if your case is in a Massachusetts trial court.
+  If you have a court case in a Massachusetts Trial Court, you can use this interview to make a **'Notice of Appearance'**. 
   
   Before you start, **gather your**:
   
@@ -170,14 +170,15 @@ subquestion: |
   2. File the form with your court (with instructions)
   3. Deliver a copy of the form to the other party in your case or their attorney
 
-  Most people take about 10 minutes to complete this interview. Answer the questions    as though you are the party being represented.
----
+  Most people take about 5 minutes to finish this interview.
 id: Representation Status
 question: |
-  Representation Status
+  Who is using this form?
 fields:
-  - Are you being represented by an attorney in this case?: users1_is_represented
-    datatype: yesnoradio
+  - I am: al_person_answering
+    choices:
+      - Representing myself: user
+      - An attorney representing someone else: attorney
 ---
 id: Attorney Information
 question: |
@@ -300,10 +301,14 @@ review:
     button: |
       **What is the full name of the person you are representing in this case?**:
       ${ users1_name_full1 }
-  - Edit: users1_is_represented
+  - Edit: al_person_answering
     button: |
       **Are you being represented by an attorney in this case?**:
-      ${ word(yesno(users1_is_represented)) }
+      % if al_person_answering == "attorney":
+      * Yes
+      % else:
+      * No
+      % endif
   - Edit: attorneys1_bar_number
     button: |
       **What is your Board of Bar Overseer Number? (BBO #)**:
@@ -452,22 +457,22 @@ attachment:
       - "trial_court_department7": ${ True if trial_court.department == "Superior Court" else False }
       - "respondents": ${ respondents }
       - "trial_court_address_county": ${ trial_court.address.county }
-      - "users1_is_pro_se": ${ True if users1_is_represented == False else False }
-      - "users1_name_full1": ${ users[0].name.full() if users1_is_represented == True else "N/A" }
-      - "users1_is_represented": ${ True if users1_is_represented == True else False }
-      - "attorneys1_bar_number": ${ "N/A" if users1_is_represented == False else attorneys1_bar_number }
-      - "attorneys1_name_full": ${ users[0].name.full() if users1_is_represented == False else attorneys[0].name.full() }
-      - "attorneys1_firm_name": ${ "N/A" if users1_is_represented == False else attorneys1_firm_name }
-      - "attorneys1_phone_number": ${ users[0].phone_number if users1_is_represented == False else attorneys[0].phone_number }
-      - "attorneys1_address.address": ${ users[0].address.address if users1_is_represented == False else attorneys[0].address.address }
-      - "attorneys1_address.unit": ${ users[0].address.unit if users1_is_represented == False else attorneys[0].address.unit }
-      - "attorneys1_mobile_number": ${ users[0].mobile_number if users1_is_represented == False else attorneys[0].mobile_number }
-      - "attorneys1_email": ${ users[0].email if users1_is_represented == False else attorneys[0].email }
-      - "attorneys1_address.zip": ${ users[0].address.zip if users1_is_represented == False else attorneys[0].address.zip }
-      - "attorneys1_address.city": ${ users[0].address.city if users1_is_represented == False else attorneys[0].address.city }
-      - "attorneys1_address.state": ${ users[0].address.state if users1_is_represented == False else attorneys[0].address.state }
+      - "users1_is_pro_se": ${ True if al_person_answering == "user" else False }
+      - "users1_name_full1": ${ users[0].name.full() if al_person_answering == "attorney" else "N/A" }
+      - "users1_is_represented": ${ True if al_person_answering == "attorney" else False }
+      - "attorneys1_bar_number": ${ "N/A" if al_person_answering == "user" else attorneys1_bar_number }
+      - "attorneys1_name_full": ${ users[0].name.full() if al_person_answering == "user" else attorneys[0].name.full() }
+      - "attorneys1_firm_name": ${ "N/A" if al_person_answering == "user" else attorneys1_firm_name }
+      - "attorneys1_phone_number": ${ users[0].phone_number if al_person_answering == "user" else attorneys[0].phone_number }
+      - "attorneys1_address.address": ${ users[0].address.address if al_person_answering == "user" else attorneys[0].address.address }
+      - "attorneys1_address.unit": ${ users[0].address.unit if al_person_answering == "user" else attorneys[0].address.unit }
+      - "attorneys1_mobile_number": ${ users[0].mobile_number if al_person_answering == "user" else attorneys[0].mobile_number }
+      - "attorneys1_email": ${ users[0].email if al_person_answering == "user" else attorneys[0].email }
+      - "attorneys1_address.zip": ${ users[0].address.zip if al_person_answering == "user" else attorneys[0].address.zip }
+      - "attorneys1_address.city": ${ users[0].address.city if al_person_answering == "user" else attorneys[0].address.city }
+      - "attorneys1_address.state": ${ users[0].address.state if al_person_answering == "user" else attorneys[0].address.state }
       - "signature_date": ${ signature_date }
-      - "attorneys1_signature": ${ users[0].signature if users1_is_represented == False else attorneys[0].signature }
+      - "attorneys1_signature": ${ users[0].signature if al_person_answering == "user" else attorneys[0].signature }
 
 
 
