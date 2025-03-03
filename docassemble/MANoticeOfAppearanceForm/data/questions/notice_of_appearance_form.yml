@@ -171,11 +171,13 @@ subquestion: |
   3. Deliver a copy of the form to the other party in your case or their attorney
 
   Most people take about 5 minutes to finish this interview.
+---
 id: Representation Status
 question: |
   Who is using this form?
 fields:
   - I am: al_person_answering
+    datatype: radio
     choices:
       - Representing myself: user
       - An attorney representing someone else: attorney
