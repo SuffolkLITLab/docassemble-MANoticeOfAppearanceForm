@@ -2,6 +2,7 @@
 include:
   - docassemble.AssemblyLine:assembly_line.yml
   - docassemble.MassAccess:massaccess.yml
+  - notice_of_appearance_form.yml
   # - docassemble.MATCTheme:matc_theme.yml # As of now, this is not an MATC approved interview
 ---
 metadata:
