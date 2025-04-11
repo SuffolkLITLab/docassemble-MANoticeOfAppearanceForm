@@ -324,6 +324,7 @@ attachment:
   variable name: notice_of_appearance_form_attachment[i]
   skip undefined: True
   pdf template file: notice_of_appearance_form.pdf
+  editable: False
   fields:
       - "docket_number": ${ docket_number }
       - "trial_court_department3": ${ trial_court.department == "Housing Court" }
