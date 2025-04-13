@@ -327,30 +327,30 @@ attachment:
   editable: False
   fields:
       - "docket_number": ${ docket_number }
-      - "trial_court_department3": ${ trial_court.department == "Housing Court" }
-      - "trial_court_department1": ${ trial_court.department == "Boston Municipal Court" }
-      - "trial_court_department2": ${ trial_court.department == "District Court" }
-      - "trial_court_department5": ${ trial_court.department == "Land Court" }
-      - "trial_court_department4": ${ trial_court.department == "Juvenile Court" }
+      - "trial_court_is_hc": ${ trial_court.department == "Housing Court" }
+      - "trial_court_is_bmc": ${ trial_court.department == "Boston Municipal Court" }
+      - "trial_court_is_dc": ${ trial_court.department == "District Court" }
+      - "trial_court_is_lc": ${ trial_court.department == "Land Court" }
+      - "trial_court_is_jc": ${ trial_court.department == "Juvenile Court" }
+      - "trial_court_is_pfc": ${ trial_court.department == "Probate & Family Court" }
+      - "trial_court_is_sc": ${ trial_court.department == "Superior Court" }
       - "petitioners": ${ petitioners }
-      - "trial_court_department6": ${ trial_court.department == "Probate & Family Court" }
-      - "trial_court_department7": ${ trial_court.department == "Superior Court" }
       - "respondents": ${ respondents }
       - "trial_court_address_county": ${ trial_court.address.county }
       - "users1_is_pro_se": ${ al_person_answering == "user"}
-      - "users1_name_full1": ${ users[0].name.full() if al_person_answering == "attorney" else "N/A" }
       - "users1_is_represented": ${ al_person_answering == "attorney" }
-      - "attorneys[0].bbo_number": ${ "N/A" if al_person_answering == "user" else attorneys[0].bbo_number }
+      - "users1_name_full1": ${ users[0].name.full() if al_person_answering == "attorney" else "N/A" }
+      - "attorneys1_bar_number": ${ "" if al_person_answering == "user" else attorneys[0].bbo_number }
       - "attorneys1_name_full": ${ users[0].name.full() if al_person_answering == "user" else attorneys[0].name.full() }
-      - "attorneys[0].firm_name": ${ "N/A" if al_person_answering == "user" else attorneys[0].firm_name }
+      - "attorneys1_firm_name": ${ "" if al_person_answering == "user" else attorneys[0].firm_name }
       - "attorneys1_phone_number": ${ users[0].phone_number if al_person_answering == "user" else attorneys[0].phone_number }
       - "attorneys1_mobile_number": ${ users[0].mobile_number if al_person_answering == "user" else attorneys[0].mobile_number }
-      - "attorneys1_address.address": ${ users[0].address.address if al_person_answering == "user" else attorneys[0].address.address }
-      - "attorneys1_address.unit": ${ users[0].address.unit if al_person_answering == "user" else attorneys[0].address.unit }
+      - "attorneys1_address_address": ${ users[0].address.address if al_person_answering == "user" else attorneys[0].address.address }
+      - "attorneys1_address_unit": ${ users[0].address.unit if al_person_answering == "user" else attorneys[0].address.unit }
       - "attorneys1_email": ${ users[0].email if al_person_answering == "user" else attorneys[0].email }
-      - "attorneys1_address.zip": ${ users[0].address.zip if al_person_answering == "user" else attorneys[0].address.zip }
-      - "attorneys1_address.city": ${ users[0].address.city if al_person_answering == "user" else attorneys[0].address.city }
-      - "attorneys1_address.state": ${ users[0].address.state if al_person_answering == "user" else attorneys[0].address.state }
+      - "attorneys1_address_zip": ${ users[0].address.zip if al_person_answering == "user" else attorneys[0].address.zip }
+      - "attorneys1_address_city": ${ users[0].address.city if al_person_answering == "user" else attorneys[0].address.city }
+      - "attorneys1_address_state": ${ users[0].address.state if al_person_answering == "user" else attorneys[0].address.state }
       - "signature_date": ${ signature_date }
       - "attorneys1_signature": ${ users[0].signature if al_person_answering == "user" else attorneys[0].signature }
 
